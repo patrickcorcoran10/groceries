@@ -13,7 +13,6 @@ export default class Main extends Component {
   async componentDidMount() {
     const res = await fetch("/api/getList");
     const data = await res.json();
-
     const response = await fetch("/api/getChecked");
     const dataResponse = await response.json();
     this.setState({
@@ -23,7 +22,7 @@ export default class Main extends Component {
     console.log(this.state.listArray, this.state.checkedArray);
   }
   addItem = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     console.log("adding item: ", this.state.item);
     superagent
       .post("/api/add")
@@ -88,6 +87,11 @@ export default class Main extends Component {
         window.location.reload();
       });
   };
+  onKeyPress = (e) => {
+    if (e.which === 13) {
+      this.addItem();
+    }
+  };
 
   render() {
     let uncheckedStyle = { color: "green" };
@@ -132,10 +136,17 @@ export default class Main extends Component {
       <div className="container">
         <h1>Grocery List</h1>
         <input
+          autoFocus="autofocus"
           placeholder="Add item here"
           onChange={(this.handleChange = this.handleChange.bind(this))}
+          onKeyPress={(this.onKeyPress = this.onKeyPress.bind(this))}
         />
-        <button onClick={(this.addItem = this.addItem.bind(this))}>Add</button>
+        <button
+          type="submit"
+          onClick={(this.addItem = this.addItem.bind(this))}
+        >
+          Add
+        </button>
         <button onClick={(this.reset = this.reset.bind(this))}>
           Refresh List
         </button>
