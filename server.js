@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
-const PORT = process.env.PORT || 3001;
+
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -14,7 +14,7 @@ require("./routes/api-routes")(app);
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, ".client/build/index.html"));
 });
-
+let PORT = process.env.PORT || 3001;
 db.sequelize.sync().then(function () {
   app.listen(PORT, function () {
     console.log("We are Shopping on PORT", PORT);
