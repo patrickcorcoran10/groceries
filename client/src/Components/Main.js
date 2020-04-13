@@ -153,7 +153,7 @@ export default class Main extends Component {
         <h2>Left to Get:</h2>
         {list}
         <br />
-        <h2>Already Got:</h2>
+        <h2>Already In the Cart:</h2>
         {checkedList}
       </div>
     );
