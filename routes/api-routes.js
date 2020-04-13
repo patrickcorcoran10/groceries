@@ -51,4 +51,18 @@ module.exports = function (app) {
       res.json(dbData);
     });
   });
+  app.put("/api/uncheck:id", (req, res) => {
+    db.Lists.update(
+      {
+        checked: false,
+      },
+      {
+        where: {
+          id: req.params.id,
+        },
+      }
+    ).then((dbData) => {
+      res.json(dbData);
+    });
+  });
 };

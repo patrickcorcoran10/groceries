@@ -75,10 +75,25 @@ export default class Main extends Component {
       });
   };
 
+  handleUncheck = (e) => {
+    e.preventDefault();
+    console.log("we are unchecked");
+    let uncheckID = e.target.value;
+    fetch("/api/uncheck" + uncheckID, {
+      method: "PUT",
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        window.location.reload();
+      });
+  };
+
   render() {
+    let uncheckedStyle = { color: "green" };
     let list = this.state.listArray.map((el, index) => (
       <span key={index}>
-        <h2>{el.items}</h2>
+        <h2 style={uncheckedStyle}>{el.items}</h2>
         <button
           value={el.id}
           onClick={(this.handleCheck = this.handleCheck.bind(this))}
@@ -94,14 +109,15 @@ export default class Main extends Component {
         <p>-----------------------------------</p>
       </span>
     ));
+    let checkedStyle = { color: "red" };
     let checkedList = this.state.checkedArray.map((el, index) => (
       <span key={index}>
-        <h2>{el.items}</h2>
+        <h2 style={checkedStyle}>{el.items}</h2>
         <button
           value={el.id}
-          onClick={(this.handleCheck = this.handleCheck.bind(this))}
+          onClick={(this.handleUncheck = this.handleUncheck.bind(this))}
         >
-          Checked
+          Unchecked
         </button>
         <button
           value={el.id}
