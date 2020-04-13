@@ -2,20 +2,34 @@ const db = require("../models");
 module.exports = function (app) {
   app.post("/api/add", (req, res) => {
     db.Lists.create({
-      items: req.body.item,
+      items: req.body.items,
+      checked: false,
     }).then((dbData) => {
       res.json(dbData);
     });
   });
 
-  app.get("/api/get", (req, res) => {
-    db.Lists.findAll({}).then((dbData) => {
+  app.get("/api/getList", (req, res) => {
+    db.Lists.findAll({
+      where: {
+        checked: false,
+      },
+    }).then((dbData) => {
+      res.json(dbData);
+    });
+  });
+  app.get("/api/getChecked", (req, res) => {
+    db.Lists.findAll({
+      where: {
+        checked: true,
+      },
+    }).then((dbData) => {
       res.json(dbData);
     });
   });
   // DELETE Route for Deleted Players on Admin Page
   app.delete("/api/delete:id", (req, res) => {
-    db.Drafts.destroy({
+    db.Lists.destroy({
       where: {
         id: req.params.id,
       },
@@ -24,7 +38,7 @@ module.exports = function (app) {
     });
   });
   app.put("/api/update:id", (req, res) => {
-    db.Drafts.update(
+    db.Lists.update(
       {
         checked: true,
       },
