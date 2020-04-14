@@ -11,7 +11,12 @@ export default class Main extends Component {
     };
   }
   async componentDidMount() {
-    const res = await fetch("/api/getList");
+    const res = await fetch("/api/getList", {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
     const data = await res.json();
     const response = await fetch("/api/getChecked");
     const dataResponse = await response.json();
