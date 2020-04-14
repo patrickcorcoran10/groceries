@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import superagent from "superagent";
+import "./Main.css";
 
 export default class Main extends Component {
   constructor(props) {
@@ -141,6 +142,8 @@ export default class Main extends Component {
       <div className="container">
         <h1>Grocery List</h1>
         <input
+          size="14px"
+          height="10"
           autoFocus="autofocus"
           placeholder="Add item here"
           onChange={(this.handleChange = this.handleChange.bind(this))}
@@ -152,6 +155,7 @@ export default class Main extends Component {
         >
           Add
         </button>
+        {"                                   "}
         <button onClick={(this.reset = this.reset.bind(this))}>
           Refresh List
         </button>
