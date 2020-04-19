@@ -178,49 +178,53 @@ export default class Main extends Component {
     ));
     return (
       <div className="container">
-        <h1>Grocery List</h1>
+        <h4>Grocery List: {this.state.listArray.length} Items</h4>
         <div className="row">
           <div className="col-md-4"></div>
           <div className="col-md-4">
-            <Input
-              id="input"
-              bsSize="lg"
-              autoFocus="autofocus"
-              placeholder="Add item here"
-              onChange={(this.handleChange = this.handleChange.bind(this))}
-              onKeyPress={(this.onKeyPress = this.onKeyPress.bind(this))}
-            />
+            <div className="fixed-input">
+              <Input
+                id="input"
+                bsSize="lg"
+                autoFocus="autofocus"
+                placeholder="Add item here"
+                onChange={(this.handleChange = this.handleChange.bind(this))}
+                onKeyPress={(this.onKeyPress = this.onKeyPress.bind(this))}
+              />
+              <br />
+              <Button
+                type="submit"
+                onClick={(this.addItem = this.addItem.bind(this))}
+                color="success"
+                size="lg"
+              >
+                Add
+              </Button>{" "}
+              {"                                   "}
+              <Button
+                color="warning"
+                size="lg"
+                onClick={(this.reset = this.reset.bind(this))}
+              >
+                Refresh List
+              </Button>
+            </div>
             <br />
-            <Button
-              type="submit"
-              onClick={(this.addItem = this.addItem.bind(this))}
-              color="success"
-              size="lg"
-            >
-              Add
-            </Button>{" "}
-            {"                                   "}
-            <Button
-              color="warning"
-              size="lg"
-              onClick={(this.reset = this.reset.bind(this))}
-            >
-              Refresh List
-            </Button>
-            <br />
-            <h2>Left to Get:</h2>
-            {list}
-            <br />
-            <h2>Already In the Cart:</h2>
-            <Button
-              color="danger"
-              size="lg"
-              onClick={(this.deleteAll = this.deleteAll.bind(this))}
-            >
-              Delete All
-            </Button>
-            <p>---------------------------------------</p>
-            {checkedList}
+            <div className="list-area">
+              <h2>Left to Get:</h2>
+              {list}
+              <br />
+              <h2>Already In the Cart:</h2>
+              <Button
+                color="danger"
+                size="lg"
+                onClick={(this.deleteAll = this.deleteAll.bind(this))}
+              >
+                Delete All
+              </Button>
+              <p>---------------------------------------</p>
+              {checkedList}
+            </div>
           </div>
         </div>
         <div className="col-md-4"></div>
