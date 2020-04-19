@@ -1,4 +1,4 @@
-input {
-  height: 30px;
-  width: 200px;
+#input {
+  width: 350px;
+  align-self: center;
 }

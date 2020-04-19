@@ -37,6 +37,7 @@ module.exports = function (app) {
       res.json(dbData);
     });
   });
+  // Delete All Route
   app.put("/api/update:id", (req, res) => {
     db.Lists.update(
       {
