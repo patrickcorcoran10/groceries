@@ -178,11 +178,11 @@ export default class Main extends Component {
     ));
     return (
       <div className="container">
-        <h4>Grocery List: {this.state.listArray.length} Items</h4>
         <div className="row">
           <div className="col-md-4"></div>
           <div className="col-md-4">
             <div className="fixed-input">
+              <h4>Grocery List: {this.state.listArray.length} Items</h4>
               <Input
                 id="input"
                 bsSize="lg"
@@ -209,7 +209,6 @@ export default class Main extends Component {
                 Refresh List
               </Button>
             </div>
-            <br />
             <div className="list-area">
               <h2>Left to Get:</h2>
               {list}
