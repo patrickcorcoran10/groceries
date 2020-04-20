@@ -116,7 +116,7 @@ export default class Main extends Component {
     }
   };
 
-  deleteAll = (e) => {
+  async deleteAll(e) {
     e.preventDefault();
     let toDelete = [];
     console.log("we delete all now", this.state.checkedArray);
@@ -126,7 +126,7 @@ export default class Main extends Component {
     console.log(toDelete);
 
     for (var j = 0; j < toDelete.length; j++) {
-      fetch("/api/delete" + toDelete[j], {
+      await fetch("/api/delete" + toDelete[j], {
         method: "DELETE",
       })
         .then((res) => res.json())
@@ -136,7 +136,7 @@ export default class Main extends Component {
     }
 
     window.location.reload();
-  };
+  }
 
   render() {
     let uncheckedStyle = { color: "green" };
