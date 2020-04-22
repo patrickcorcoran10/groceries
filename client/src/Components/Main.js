@@ -12,7 +12,8 @@ export default class Main extends Component {
       checkedArray: [],
     };
   }
-  async componentDidMount() {
+  async getLists() {
+    console.log(this.state);
     const res = await fetch("/api/getList", {
       headers: {
         "Content-Type": "application/json",
@@ -23,7 +24,6 @@ export default class Main extends Component {
     const response = await fetch("/api/getChecked");
     const dataResponse = await response.json();
     function compare(a, b) {
-      // Use toUpperCase() to ignore character casing
       const itemsA = a.items.toUpperCase();
       const itemsB = b.items.toUpperCase();
 
@@ -44,6 +44,9 @@ export default class Main extends Component {
     });
     console.log(this.state.listArray, this.state.checkedArray);
   }
+  async componentDidMount() {
+    this.getLists();
+  }
   addItem = (e) => {
     // e.preventDefault();
     console.log("adding item: ", this.state.item);
@@ -55,6 +58,10 @@ export default class Main extends Component {
       })
       .end((err, res) => {
         console.log(res);
+        this.setState({
+          item: "",
+        });
+        // this.getLists();
         window.location.reload();
       });
   };
@@ -67,20 +74,25 @@ export default class Main extends Component {
   reset = (e) => {
     e.preventDefault();
     console.log("we are reseting");
-    window.location.reload();
+    this.getLists();
   };
   handleCheck = (e) => {
     e.preventDefault();
     console.log("we are checking this item", e.target.value);
     let checkID = e.target.value;
-    console.log("check id ", checkID);
+    console.log(
+      "check id ",
+      checkID,
+      "check id plus one: ",
+      parseInt(checkID) + 1
+    );
     fetch("/api/update" + checkID, {
       method: "PUT",
     })
       .then((res) => res.json())
       .then((res) => {
         console.log(res);
-        window.location.reload();
+        this.getLists();
       });
   };
   handleDelete = (e) => {
@@ -93,7 +105,7 @@ export default class Main extends Component {
       .then((res) => res.json())
       .then((res) => {
         console.log(res);
-        window.location.reload();
+        this.getLists();
       });
   };
 
@@ -107,7 +119,7 @@ export default class Main extends Component {
       .then((res) => res.json())
       .then((res) => {
         console.log(res);
-        window.location.reload();
+        this.getLists();
       });
   };
   onKeyPress = (e) => {
@@ -134,15 +146,16 @@ export default class Main extends Component {
           console.log(res);
         });
     }
-
-    window.location.reload();
+    this.getLists();
   }
 
   render() {
     let uncheckedStyle = { color: "green" };
     let list = this.state.listArray.map((el, index) => (
       <span key={index}>
-        <h2 style={uncheckedStyle}>{el.items}</h2>
+        <h2 style={uncheckedStyle} draggable="true">
+          {el.items}
+        </h2>
         <Button
           color="info"
           value={el.id}
