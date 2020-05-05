@@ -9,7 +9,8 @@ app.use(bodyParser.json());
 
 const db = require("./models");
 
-require("./routes/api-routes")(app);
+require("./routes/list-api-routes")(app);
+require("./routes/recipe-api-routes")(app);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));

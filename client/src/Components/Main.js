@@ -61,8 +61,8 @@ export default class Main extends Component {
         this.setState({
           item: "",
         });
-        // this.getLists();
-        window.location.reload();
+        this.getLists();
+        // window.location.reload();
       });
   };
   handleChange = (e) => {
@@ -195,32 +195,35 @@ export default class Main extends Component {
           <div className="col-md-4"></div>
           <div className="col-md-4">
             <div className="fixed-input">
-              <h4>Grocery List: {this.state.listArray.length} Items</h4>
-              <Input
-                id="input"
-                bsSize="lg"
-                autoFocus="autofocus"
-                placeholder="Add item here"
-                onChange={(this.handleChange = this.handleChange.bind(this))}
-                onKeyPress={(this.onKeyPress = this.onKeyPress.bind(this))}
-              />
-              <br />
-              <Button
-                type="submit"
-                onClick={(this.addItem = this.addItem.bind(this))}
-                color="success"
-                size="lg"
-              >
-                Add
-              </Button>{" "}
-              {"                                   "}
-              <Button
-                color="warning"
-                size="lg"
-                onClick={(this.reset = this.reset.bind(this))}
-              >
-                Refresh List
-              </Button>
+              <h4>{this.state.listArray.length} Items</h4>
+              <form>
+                <Input
+                  id="input"
+                  bsSize="lg"
+                  autoFocus="autofocus"
+                  placeholder="Add item here"
+                  onChange={(this.handleChange = this.handleChange.bind(this))}
+                  onKeyPress={(this.onKeyPress = this.onKeyPress.bind(this))}
+                />
+                <br />
+                <Button
+                  type="reset"
+                  value="reset"
+                  onClick={(this.addItem = this.addItem.bind(this))}
+                  color="success"
+                  size="lg"
+                >
+                  Add
+                </Button>{" "}
+                {"                                   "}
+                <Button
+                  color="warning"
+                  size="lg"
+                  onClick={(this.reset = this.reset.bind(this))}
+                >
+                  Refresh List
+                </Button>
+              </form>
             </div>
             <div className="list-area">
               <h2>Left to Get:</h2>

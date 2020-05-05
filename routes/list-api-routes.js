@@ -1,5 +1,6 @@
 const db = require("../models");
 module.exports = function (app) {
+  // Groceries List Routes
   app.post("/api/add", (req, res) => {
     db.Lists.create({
       items: req.body.items,
