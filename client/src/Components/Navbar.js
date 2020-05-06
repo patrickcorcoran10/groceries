@@ -7,6 +7,7 @@ import IconButton from "@material-ui/core/IconButton";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import Link from "@material-ui/core/Link";
 import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -67,9 +68,16 @@ export default function Navbar() {
                 open={open}
                 onClose={handleClose}
               >
-                <Link href="/">Groceries</Link>
-                <br />
-                <Link href="/recipes">Recipes</Link>
+                <MenuItem>
+                  <Link href="/">
+                    <h6>Groceries</h6>
+                  </Link>
+                </MenuItem>
+                <MenuItem>
+                  <Link href="/recipes">
+                    <h6>Recipes</h6>
+                  </Link>
+                </MenuItem>
               </Menu>
             </div>
           )}
