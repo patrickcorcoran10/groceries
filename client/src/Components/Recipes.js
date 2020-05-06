@@ -1,11 +1,8 @@
 import React, { Component } from "react";
 import RecipeCard2 from "./Card";
 import Button from "@material-ui/core/Button";
-// import TextField from "@material-ui/core/TextField";
-// import RecipeModal from "./RecipeModal";
-// import Modal from "@material-ui/core/Modal";
-// import Backdrop from "@material-ui/core/Backdrop";
-// import Fade from "@material-ui/core/Fade";
+import TextField from "@material-ui/core/TextField";
+import "./Recipes.css";
 
 export default class Recipes extends Component {
   constructor(props) {
@@ -15,7 +12,8 @@ export default class Recipes extends Component {
       recipe: "",
       recipeIngredients: [],
       ingredient: "",
-      // modalOpen: false,
+      searchTerm: "",
+      searchTermArr: [],
     };
   }
   componentDidMount() {
@@ -31,19 +29,28 @@ export default class Recipes extends Component {
     console.log(data);
   }
 
-  handleInput = (e) => {
+  handleSearchInput = (e) => {
     e.preventDefault();
     console.log(e.target.value);
     this.setState({
-      recipe: e.target.value,
+      searchTerm: e.target.value,
     });
   };
+  async searchRecipes(e) {
+    console.log("we will search: ", this.state.searchTerm);
+    let term = this.state.searchTerm;
+    if (term === "") {
+      alert("Please Search for a Term");
+    }
+    const res = await fetch("/api/searchRecipes" + term);
+    const data = await res.json();
+    this.setState({
+      searchTermArr: data,
+    });
+  }
   addRecipe = (e) => {
     console.log("we throw a modal here");
     this.props.history.push("/recipe-form");
-  };
-  handleSearch = (e) => {
-    console.log("We search");
   };
 
   deleteRecipe = (e) => {
@@ -59,8 +66,29 @@ export default class Recipes extends Component {
         this.getRecipes();
       });
   };
+  handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      this.searchRecipes();
+    }
+  };
+  resetSearch = (e) => {
+    e.preventDefaul();
+    console.log("we are resetting");
+    window.location.reload();
+  };
 
   render() {
+    let searchedTerm = this.state.searchTermArr.map((el, index) => (
+      <span key={el.id}>
+        <RecipeCard2
+          id={el.id}
+          recipe={el.recipeName}
+          ingredients={JSON.parse(el.recipeIngredients)}
+          instructions={el.recipeInstructions}
+          delete={this.deleteRecipe.bind(this)}
+        />
+      </span>
+    ));
     let recipes = this.state.recipes.map((el, index) => (
       <span key={el.id}>
         <RecipeCard2
@@ -74,48 +102,35 @@ export default class Recipes extends Component {
     ));
     return (
       <div>
-        <p>Recipes</p>
-        <p>Search</p>
-        {/* <TextField
-          label="Add Recipe"
-          id="outlined-size-normal"
-          defaultValue=""
-          variant="outlined"
-          onChange={this.handleInput.bind(this)}
-        />
-        <br /> */}
-        <Button size="medium" onClick={this.addRecipe.bind(this)}>
-          Add Recipe
-        </Button>
-        {/* <Modal
-          aria-labelledby="transition-modal-title"
-          aria-describedby="transition-modal-description"
-          // className={classes.modal}
-          // open={open}
-          // onClose={handleClose}
-          closeAfterTransition
-          BackdropComponent={Backdrop}
-          BackdropProps={{
-            timeout: 500,
-          }}
-        > */}
-        {/* <Fade>
-            <div>
-              <h2 id="transition-modal-title">Transition modal</h2>
-              <p id="transition-modal-description">
-                react-transition-group animates me.
-              </p>
-            </div>
-          </Fade>
-        </Modal> */}
-        {/* <input
-          onChange={(this.handleSearch = this.handleSearch.bind(this))}
-          placeholder="Search Recipe"
-        /> */}
+        <div className="search-add-div">
+          <p>Recipes</p>
+          <Button size="large" onClick={this.addRecipe.bind(this)}>
+            Add Recipe
+          </Button>
+          <form>
+            <TextField
+              // onKeyPress={this.searchRecipes.bind(this)}
+              label="Search Recipes"
+              id="outlined-size-normal"
+              defaultValue=""
+              variant="outlined"
+              onChange={this.handleSearchInput.bind(this)}
+            />
+            <br />
+            <Button
+              size="medium"
+              type="reset"
+              value="reset"
+              onClick={this.searchRecipes.bind(this)}
+            >
+              Search
+            </Button>
+            <Button onClick={this.resetSearch.bind(this)}>Reset Search</Button>
+          </form>
+        </div>
+        <div id="searchCollected">{searchedTerm}</div>
         <br />
-        {/* <button onClick={(this.addRecipe = this.addRecipe.bind(this))}>
-          Add Recipe
-        </button> */}
+
         <div>{recipes}</div>
       </div>
     );

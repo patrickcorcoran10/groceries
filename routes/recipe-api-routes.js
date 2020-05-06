@@ -6,6 +6,15 @@ module.exports = function (app) {
       res.json(dbData);
     });
   });
+  app.get("/api/searchRecipes:recipeName", (req, res) => {
+    db.Recipes.findAll({
+      where: {
+        recipeName: req.params.recipeName,
+      },
+    }).then((dbData) => {
+      res.json(dbData);
+    });
+  });
 
   app.post("/api/addRecipe", (req, res) => {
     db.Recipes.create({

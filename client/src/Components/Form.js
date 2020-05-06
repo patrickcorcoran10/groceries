@@ -53,12 +53,11 @@ export default class Form extends Component {
       .then((response) => response.json())
       .then((data) => {
         console.log("Success:", data);
-        // window.location.reload();
+        this.props.history.push("/recipes");
       })
       .catch((error) => {
         console.error("Error:", error);
       });
-    console.log("stringified data", data);
   };
   render() {
     return (

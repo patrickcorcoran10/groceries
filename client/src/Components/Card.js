@@ -1,10 +1,16 @@
 import React, { Component } from "react";
-// import { makeStyles } from "@material-ui/core/styles";
+import "./Card.css";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import {
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+} from "reactstrap";
 
 export default class RecipeCard2 extends Component {
   constructor(props) {
@@ -13,9 +19,8 @@ export default class RecipeCard2 extends Component {
   }
 
   render() {
-    console.log("card parsed? ", this.props.ingredients);
-    let parsedIngredients = this.props.ingredients.map((el, index) => (
-      <span key={index}>{el}</span>
+    const parsedIngredients = this.props.ingredients.map((el, index) => (
+      <div key={index}>{el}</div>
     ));
     return (
       <div>
@@ -27,17 +32,24 @@ export default class RecipeCard2 extends Component {
             <Typography variant="h5" component="h2">
               {this.props.recipe}
             </Typography>
-            <Typography variant="body2" component="p">
+            <Typography>
               <br />
-              {parsedIngredients}
+              <UncontrolledDropdown component="div">
+                <DropdownToggle caret>Ingredients</DropdownToggle>
+                <DropdownMenu disabled>
+                  <DropdownItem className="scrollable">
+                    {parsedIngredients}
+                  </DropdownItem>
+                </DropdownMenu>
+              </UncontrolledDropdown>
               <br />
               <strong>Instructions</strong>
               <br />
-              {this.props.instructions}
+              <div className="scrollable">{this.props.instructions}</div>
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size="small">Check Ingredients</Button>
+            {/* <Button size="small">Check Ingredients</Button> */}
             <Button size="small" id={this.props.id} onClick={this.props.delete}>
               Delete Recipe
             </Button>

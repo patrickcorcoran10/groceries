@@ -96,6 +96,7 @@ export default class Main extends Component {
       });
   };
   handleDelete = (e) => {
+    alert("Do You Really Want to Delete?");
     e.preventDefault();
     let deleteID = e.target.value;
     console.log(deleteID);
