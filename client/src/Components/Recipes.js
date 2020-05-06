@@ -72,9 +72,16 @@ export default class Recipes extends Component {
     }
   };
   resetSearch = (e) => {
-    e.preventDefaul();
+    e.preventDefault();
     console.log("we are resetting");
     window.location.reload();
+  };
+  selectRecipe = (e) => {
+    e.preventDefault();
+    console.log(
+      "We are selecting the Recipe for transfer to the Groceries Page",
+      e.target.value
+    );
   };
 
   render() {
@@ -86,6 +93,7 @@ export default class Recipes extends Component {
           ingredients={JSON.parse(el.recipeIngredients)}
           instructions={el.recipeInstructions}
           delete={this.deleteRecipe.bind(this)}
+          selectRecipe={this.selectRecipe.bind(this)}
         />
       </span>
     ));
@@ -97,6 +105,7 @@ export default class Recipes extends Component {
           ingredients={JSON.parse(el.recipeIngredients)}
           instructions={el.recipeInstructions}
           delete={this.deleteRecipe.bind(this)}
+          selectRecipe={this.selectRecipe.bind(this)}
         />
       </span>
     ));

@@ -49,7 +49,13 @@ export default class RecipeCard2 extends Component {
             </Typography>
           </CardContent>
           <CardActions>
-            {/* <Button size="small">Check Ingredients</Button> */}
+            <Button
+              size="small"
+              id={this.props.id}
+              onClick={this.props.selectRecipe}
+            >
+              Select Recipe
+            </Button>
             <Button size="small" id={this.props.id} onClick={this.props.delete}>
               Delete Recipe
             </Button>
