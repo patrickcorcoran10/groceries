@@ -170,7 +170,6 @@ export default class Recipes extends Component {
     return (
       <div>
         <div className="search-add-div">
-          <p>Recipes</p>
           <ButtonM size="large" onClick={this.addRecipe.bind(this)}>
             Add Recipe
           </ButtonM>
