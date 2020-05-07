@@ -1,8 +1,14 @@
 import React, { Component } from "react";
-import RecipeCard2 from "./Card";
-import Button from "@material-ui/core/Button";
+import ButtonM from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import "./Recipes.css";
+import { Card, CardTitle, CardText } from "reactstrap";
+import {
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+} from "reactstrap";
 
 export default class Recipes extends Component {
   constructor(props) {
@@ -14,6 +20,7 @@ export default class Recipes extends Component {
       ingredient: "",
       searchTerm: "",
       searchTermArr: [],
+      selectedRecipes: [],
     };
   }
   componentDidMount() {
@@ -26,7 +33,6 @@ export default class Recipes extends Component {
     this.setState({
       recipes: data,
     });
-    console.log(data);
   }
 
   handleSearchInput = (e) => {
@@ -66,11 +72,11 @@ export default class Recipes extends Component {
         this.getRecipes();
       });
   };
-  handleKeyPress = (event) => {
-    if (event.key === "Enter") {
-      this.searchRecipes();
-    }
-  };
+  // handleKeyPress = (event) => {
+  //   if (event.key === "Enter") {
+  //     this.searchRecipes();
+  //   }
+  // };
   resetSearch = (e) => {
     e.preventDefault();
     console.log("we are resetting");
@@ -78,44 +84,96 @@ export default class Recipes extends Component {
   };
   selectRecipe = (e) => {
     e.preventDefault();
+    console.log(e.currentTarget.value);
     console.log(
       "We are selecting the Recipe for transfer to the Groceries Page",
-      e.target.value
+      e.currentTarget.value
     );
   };
 
   render() {
     let searchedTerm = this.state.searchTermArr.map((el, index) => (
-      <span key={el.id}>
-        <RecipeCard2
-          id={el.id}
-          recipe={el.recipeName}
-          ingredients={JSON.parse(el.recipeIngredients)}
-          instructions={el.recipeInstructions}
-          delete={this.deleteRecipe.bind(this)}
-          selectRecipe={this.selectRecipe.bind(this)}
-        />
+      <span key={el.id} value={el.id}>
+        <Card body>
+          <CardTitle>
+            <h4>{el.recipeName}</h4>
+          </CardTitle>
+          <span className="button-width">
+            <UncontrolledDropdown component="div">
+              <DropdownToggle caret>Ingredients</DropdownToggle>
+              <DropdownMenu disabled>
+                <DropdownItem className="scrollable">
+                  {JSON.parse(el.recipeIngredients).map((e, i) => (
+                    <span key={i}>
+                      {e}
+                      <br />
+                    </span>
+                  ))}
+                </DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
+          </span>
+          <br />
+          <CardText>
+            <span className="scrollable">{el.recipeInstructions}</span>
+          </CardText>
+        </Card>
       </span>
     ));
+
     let recipes = this.state.recipes.map((el, index) => (
-      <span key={el.id}>
-        <RecipeCard2
-          id={el.id}
-          recipe={el.recipeName}
-          ingredients={JSON.parse(el.recipeIngredients)}
-          instructions={el.recipeInstructions}
-          delete={this.deleteRecipe.bind(this)}
-          selectRecipe={this.selectRecipe.bind(this)}
-        />
-      </span>
+      <div key={el.id}>
+        <Card body>
+          <CardTitle>
+            <h4>{el.recipeName}</h4>
+          </CardTitle>
+          <span className="button-width">
+            <UncontrolledDropdown component="div">
+              <DropdownToggle caret>Ingredients</DropdownToggle>
+              <DropdownMenu disabled>
+                <DropdownItem className="scrollable">
+                  {JSON.parse(el.recipeIngredients).map((e, i) => (
+                    <span key={i}>
+                      {e}
+                      <br />
+                    </span>
+                  ))}
+                </DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
+          </span>
+          <br />
+          <CardText>
+            <span className="scrollable">{el.recipeInstructions}</span>
+          </CardText>
+          <span className="button-area">
+            <ButtonM
+              size="medium"
+              value={el.id}
+              onClick={(this.selectRecipe = this.selectRecipe.bind(this))}
+            >
+              Select Recipe
+            </ButtonM>
+
+            <ButtonM
+              size="medium"
+              id={el.id}
+              value={el.id}
+              onClick={this.deleteRecipe.bind(this)}
+            >
+              Delete Recipe
+            </ButtonM>
+          </span>
+        </Card>
+      </div>
     ));
     return (
       <div>
         <div className="search-add-div">
           <p>Recipes</p>
-          <Button size="large" onClick={this.addRecipe.bind(this)}>
+          <ButtonM size="large" onClick={this.addRecipe.bind(this)}>
             Add Recipe
-          </Button>
+          </ButtonM>
           <form>
             <TextField
               // onKeyPress={this.searchRecipes.bind(this)}
@@ -126,15 +184,17 @@ export default class Recipes extends Component {
               onChange={this.handleSearchInput.bind(this)}
             />
             <br />
-            <Button
+            <ButtonM
               size="medium"
               type="reset"
               value="reset"
               onClick={this.searchRecipes.bind(this)}
             >
               Search
-            </Button>
-            <Button onClick={this.resetSearch.bind(this)}>Reset Search</Button>
+            </ButtonM>
+            <ButtonM onClick={this.resetSearch.bind(this)}>
+              Reset Search
+            </ButtonM>
           </form>
         </div>
         <div id="searchCollected">{searchedTerm}</div>

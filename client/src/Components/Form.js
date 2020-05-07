@@ -35,6 +35,11 @@ export default class Form extends Component {
     this.state.recipeIngredients.push(this.state.ingredient);
     console.log(this.state);
   };
+  //   onKeyPress = (e) => {
+  //     if (e.which === 13) {
+  //       this.addIngredient();
+  //     }
+  //   };
   submit = (e) => {
     e.preventDefault();
     console.log("we are submitting here");

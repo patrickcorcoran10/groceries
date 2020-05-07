@@ -11,9 +11,11 @@ function App() {
     <div className="App">
       <Router>
         <Navbar />
-        <Route exact path="/" component={Main} />
-        <Route exact path="/recipes" component={Recipes} />
-        <Route exact path="/recipe-form" component={Form} />
+        <React.StrictMode>
+          <Route exact path="/" component={Main} />
+          <Route exact path="/recipes" component={Recipes} />
+          <Route exact path="/recipe-form" component={Form} />
+        </React.StrictMode>
       </Router>
     </div>
   );
