@@ -16,8 +16,6 @@ export default class Recipes extends Component {
     this.state = {
       recipes: [],
       recipe: "",
-      // recipeIngredients: [],
-      // ingredient: "",
       searchTerm: "",
       searchTermArr: [],
       selectedIngredients: [],
@@ -102,7 +100,7 @@ export default class Recipes extends Component {
       <span key={el.id} value={el.id}>
         <Card body>
           <CardTitle>
-            <h4>{el.recipeName}</h4>
+            <h5>{el.recipeName}</h5>
           </CardTitle>
           <span className="button-width">
             <UncontrolledDropdown component="div">
