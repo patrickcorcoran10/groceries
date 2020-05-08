@@ -16,15 +16,14 @@ export default class Recipes extends Component {
     this.state = {
       recipes: [],
       recipe: "",
-      recipeIngredients: [],
-      ingredient: "",
+      // recipeIngredients: [],
+      // ingredient: "",
       searchTerm: "",
       searchTermArr: [],
-      selectedRecipes: [],
+      selectedIngredients: [],
     };
   }
   componentDidMount() {
-    console.log("We are Mounted for Recipes");
     this.getRecipes();
   }
   async getRecipes() {
@@ -33,11 +32,11 @@ export default class Recipes extends Component {
     this.setState({
       recipes: data,
     });
+    console.log(this.state);
   }
 
   handleSearchInput = (e) => {
     e.preventDefault();
-    console.log(e.target.value);
     this.setState({
       searchTerm: e.target.value,
     });
@@ -55,7 +54,6 @@ export default class Recipes extends Component {
     });
   }
   addRecipe = (e) => {
-    console.log("we throw a modal here");
     this.props.history.push("/recipe-form");
   };
 
@@ -68,7 +66,6 @@ export default class Recipes extends Component {
     })
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
         this.getRecipes();
       });
   };
@@ -82,14 +79,23 @@ export default class Recipes extends Component {
     console.log("we are resetting");
     window.location.reload();
   };
-  selectRecipe = (e) => {
+  async selectRecipe(e) {
     e.preventDefault();
-    console.log(e.currentTarget.value);
     console.log(
       "We are selecting the Recipe for transfer to the Groceries Page",
-      e.currentTarget.value
+      e.currentTarget.id.split(",")
     );
-  };
+    let selectedIngredients = e.currentTarget.id.split(",");
+    await this.setState({
+      selectedIngredients: selectedIngredients,
+    });
+    console.log(
+      "the state in interested in on the Recipe page",
+      this.state.selectedIngredients
+    );
+    this.props.selectedRecipeIngredients(this.state.selectedIngredients);
+    this.props.history.push("/");
+  }
 
   render() {
     let searchedTerm = this.state.searchTermArr.map((el, index) => (
@@ -125,7 +131,7 @@ export default class Recipes extends Component {
       <div key={el.id}>
         <Card body>
           <CardTitle>
-            <h4>{el.recipeName}</h4>
+            <h5>{el.recipeName}</h5>
           </CardTitle>
           <span className="button-width">
             <UncontrolledDropdown component="div">
@@ -149,6 +155,7 @@ export default class Recipes extends Component {
           <span className="button-area">
             <ButtonM
               size="medium"
+              id={JSON.parse(el.recipeIngredients)}
               value={el.id}
               onClick={(this.selectRecipe = this.selectRecipe.bind(this))}
             >
@@ -158,7 +165,7 @@ export default class Recipes extends Component {
             <ButtonM
               size="medium"
               id={el.id}
-              value={el.id}
+              value={el.recipeIngredients}
               onClick={this.deleteRecipe.bind(this)}
             >
               Delete Recipe

@@ -10,7 +10,24 @@ export default class Main extends Component {
       item: "",
       listArray: [],
       checkedArray: [],
+      selectedRecipeIngredients: this.props.selectedRecipeIngredients,
     };
+  }
+  async makeList() {
+    console.log(this.state.selectedRecipeIngredients);
+    let loopList = this.state.selectedRecipeIngredients;
+    for (let i = 0; i < loopList.length; i++) {
+      await superagent
+        .post("/api/add")
+        .send({
+          items: loopList[i].toLowerCase(),
+          checked: false,
+        })
+        .end((err, res) => {
+          console.log(res);
+        });
+    }
+    this.getLists();
   }
   async getLists() {
     console.log(this.state);
@@ -42,10 +59,16 @@ export default class Main extends Component {
       listArray: data.sort(),
       checkedArray: dataResponse.sort(),
     });
+
+    this.setState({
+      listArray: data,
+      checkedArray: dataResponse,
+    });
     console.log(this.state.listArray, this.state.checkedArray);
   }
   async componentDidMount() {
-    this.getLists();
+    await this.makeList();
+    await this.getLists();
   }
   addItem = (e) => {
     // e.preventDefault();
@@ -151,6 +174,7 @@ export default class Main extends Component {
   }
 
   render() {
+    console.log("out state search on main", this.state);
     let uncheckedStyle = { color: "green" };
     let list = this.state.listArray.map((el, index) => (
       <span key={index}>
@@ -163,14 +187,6 @@ export default class Main extends Component {
           onClick={(this.handleCheck = this.handleCheck.bind(this))}
         >
           Check
-        </Button>
-        {"                                      "}
-        <Button
-          color="danger"
-          value={el.id}
-          onClick={(this.handleDelete = this.handleDelete.bind(this))}
-        >
-          Delete
         </Button>
         <p>-----------------------------------</p>
       </span>
@@ -185,6 +201,15 @@ export default class Main extends Component {
           onClick={(this.handleUncheck = this.handleUncheck.bind(this))}
         >
           Uncheck
+        </Button>
+        {"                                      "}
+
+        <Button
+          color="danger"
+          value={el.id}
+          onClick={(this.handleDelete = this.handleDelete.bind(this))}
+        >
+          Delete
         </Button>
 
         <p>-----------------------------------</p>
@@ -236,7 +261,7 @@ export default class Main extends Component {
                 size="lg"
                 onClick={(this.deleteAll = this.deleteAll.bind(this))}
               >
-                Delete All
+                Delete All Checked Items
               </Button>
               <p>---------------------------------------</p>
               {checkedList}
